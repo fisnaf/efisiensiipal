@@ -1,31 +1,29 @@
 import streamlit as st
 
-def hitung_efisiensi(c_inlet, c_outlet):
-    efisiensi = ((c_inlet - c_outlet) / c_inlet) * 100
-    return efisiensi
-
 def main():
     st.title("Kalkulator Efisiensi IPAL")
-    st.write("Aplikasi ini menghitung efisiensi Instalasi Pengolahan Air Limbah (IPAL) berdasarkan konsentrasi polutan.")
+    st.markdown("Hitung efisiensi instalasi pengolahan air limbah berdasarkan konsentrasi polutan.")
 
-    c_inlet = st.number_input("Masukkan konsentrasi polutan di inlet (mg/L)", min_value=0.0)
-    c_outlet = st.number_input("Masukkan konsentrasi polutan di outlet (mg/L)", min_value=0.0)
+    # Input dari user
+    c_inlet = st.number_input("Masukkan konsentrasi polutan inlet (mg/L)", min_value=0.0, step=0.1)
+    c_outlet = st.number_input("Masukkan konsentrasi polutan outlet (mg/L)", min_value=0.0, step=0.1)
 
+    # Tombol untuk hitung
     if st.button("Hitung Efisiensi"):
         if c_inlet <= 0:
             st.error("Konsentrasi inlet harus lebih dari 0.")
         elif c_outlet > c_inlet:
             st.error("Konsentrasi outlet tidak boleh lebih besar dari inlet.")
         else:
-            efisiensi = hitung_efisiensi(c_inlet, c_outlet)
-            st.success(f"Efisiensi IPAL: {efisiensi:.2f}%")
+            efisiensi = ((c_inlet - c_outlet) / c_inlet) * 100
+            st.success(f"Efisiensi IPAL adalah {efisiensi:.2f}%")
 
             if efisiensi >= 90:
-                st.info("Kinerja IPAL sangat baik ✅")
+                st.info("Kinerja IPAL: Sangat Baik ✅")
             elif efisiensi >= 70:
-                st.info("Kinerja IPAL cukup baik ✅")
+                st.info("Kinerja IPAL: Cukup Baik ✅")
             else:
-                st.warning("Kinerja IPAL perlu ditingkatkan ⚠️")
+                st.warning("Kinerja IPAL: Perlu Ditingkatkan ⚠️")
 
 if __name__ == "__main__":
     main()
