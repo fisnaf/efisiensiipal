@@ -34,23 +34,21 @@ def main():
     """)
 
     # Evaluasi Parameter
-    st.header("📊 Evaluasi Efisiensi Berdasarkan Parameter Kualitas Air")
+    st.header("📊 Evaluasi Efisiensi IPAL Berdasarkan Parameter Kualitas Air")
     st.write("""
-    Evaluasi efisiensi dilakukan dengan membandingkan parameter-parameter utama seperti:
+    Evaluasi efisiensi tidak hanya dilakukan berdasarkan satu jenis polutan saja. Biasanya, evaluasi menyeluruh dilakukan dengan membandingkan nilai beberapa parameter utama sebelum dan sesudah proses pengolahan, yaitu:
 
-    - **BOD (Biochemical Oxygen Demand)**  
-    - **COD (Chemical Oxygen Demand)**  
-    - **pH**  
-    - **TSS (Total Suspended Solids)**
+    - **BOD (Biochemical Oxygen Demand)**: Menunjukkan jumlah oksigen yang dibutuhkan oleh mikroorganisme untuk menguraikan bahan organik.
+    - **COD (Chemical Oxygen Demand)**: Mengukur jumlah oksigen yang dibutuhkan untuk mengoksidasi bahan organik dan anorganik.
+    - **pH**: Menunjukkan tingkat keasaman atau kebasaan air limbah.
+    - **TSS (Total Suspended Solids)**: Menunjukkan jumlah padatan tersuspensi yang terdapat dalam air.
 
-    sebelum dan sesudah pengolahan.
+    Dengan membandingkan nilai-nilai parameter tersebut antara inlet dan outlet, efisiensi IPAL dapat dinilai secara lebih komprehensif.
 
     Hasil evaluasi ini sangat penting untuk:
     - Memastikan kepatuhan terhadap regulasi lingkungan.
-    - Menilai kinerja proses IPAL secara menyeluruh.
-    - Menyusun strategi peningkatan efisiensi operasional.
-
-    Penggunaan parameter-parameter ini memberikan gambaran komprehensif terhadap efektivitas sistem pengolahan limbah.
+    - Mengetahui efektivitas proses pengolahan.
+    - Menyusun strategi peningkatan efisiensi operasional IPAL.
     """)
 
     # Input User
