@@ -33,6 +33,26 @@ def main():
     - \( C_{\text{outlet}} \) = Konsentrasi polutan pada outlet (mg/L)
     """)
 
+    # Evaluasi Parameter
+    st.header("📊 Evaluasi Efisiensi Berdasarkan Parameter Kualitas Air")
+    st.write("""
+    Evaluasi efisiensi dilakukan dengan membandingkan parameter-parameter utama seperti:
+
+    - **BOD (Biochemical Oxygen Demand)**  
+    - **COD (Chemical Oxygen Demand)**  
+    - **pH**  
+    - **TSS (Total Suspended Solids)**
+
+    sebelum dan sesudah pengolahan.
+
+    Hasil evaluasi ini sangat penting untuk:
+    - Memastikan kepatuhan terhadap regulasi lingkungan.
+    - Menilai kinerja proses IPAL secara menyeluruh.
+    - Menyusun strategi peningkatan efisiensi operasional.
+
+    Penggunaan parameter-parameter ini memberikan gambaran komprehensif terhadap efektivitas sistem pengolahan limbah.
+    """)
+
     # Input User
     st.header("🛠️ Hitung Efisiensi IPAL Anda")
     c_inlet = st.number_input("Masukkan konsentrasi polutan inlet (mg/L)", min_value=0.0, step=0.1)
