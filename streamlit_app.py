@@ -7,7 +7,7 @@ st.set_page_config(page_title="Kalkulator Efisiensi IPAL", layout="wide")
 page_bg_img = """
 <style>
 [data-testid="stAppViewContainer"] {
-background-image: url("https://unsplash.com/photos/aerial-view-of-modern-water-cleaning-facility-at-urban-wastewater-treatment-plant-purification-process-of-removing-undesirable-chemicals-suspended-solids-and-gases-from-contaminated-liquid-UUmU6skD04U");
+background-image: url("https://stockcake.com/i/water-treatment-plant_847159_862804");
 background-size: cover;
 }
 [data-testid="stHeader"] {
