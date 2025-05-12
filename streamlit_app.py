@@ -7,8 +7,10 @@ st.set_page_config(page_title="Kalkulator Efisiensi IPAL", layout="wide")
 page_bg_img = """
 <style>
 [data-testid="stAppViewContainer"] {
-background-image: url("https://images.unsplash.com/photo-1501426026826-31c667bdf23d");
+background-image: url("https://images.unsplash.com/photo-1581090124904-43b6b56c9f9d"); 
 background-size: cover;
+background-position: center;
+background-attachment: fixed;
 }
 [data-testid="stHeader"] {
 background-color: rgba(0, 0, 0, 0);
@@ -44,8 +46,7 @@ if menu == 'Beranda':
 Aplikasi ini membantu Anda memahami konsep Instalasi Pengolahan Air Limbah (IPAL) dan menghitung efisiensi pengolahannya.
 
 Dibuat oleh:
-- Elsa Anggraeni
-- Syarif Nafis
+- Syarif Nafis & Tim (2025)
 
 Silakan gunakan menu di sebelah kiri untuk mulai mengeksplorasi.
 """)
@@ -113,4 +114,3 @@ elif menu == 'Perhitungan Efisiensi':
 
     st.markdown("---")
     st.caption("© 2025 | Edukasi IPAL untuk Pengolahan Limbah Industri")
-
