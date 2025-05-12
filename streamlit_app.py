@@ -44,7 +44,8 @@ if menu == 'Beranda':
 Aplikasi ini membantu Anda memahami konsep Instalasi Pengolahan Air Limbah (IPAL) dan menghitung efisiensi pengolahannya.
 
 Dibuat oleh:
-- Syarif Nafis & Tim (2025)
+- Elsa Anggraeni
+- Syarif Nafis
 
 Silakan gunakan menu di sebelah kiri untuk mulai mengeksplorasi.
 """)
