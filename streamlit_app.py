@@ -3,27 +3,33 @@ import streamlit as st
 # Konfigurasi tampilan halaman
 st.set_page_config(page_title="Kalkulator Efisiensi IPAL", layout="wide")
 
-# CSS latar belakang dan gaya tampilan
+# CSS responsif dan ringan
 page_bg_img = """
 <style>
 [data-testid="stAppViewContainer"] {
-background-image: url("https://stockcake.com/i/water-treatment-plant_847159_862804");
-background-size: cover;
+    background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)),
+                url("https://images.unsplash.com/photo-1617093728014-6c363116f5d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 [data-testid="stHeader"] {
-background-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 0);
+}
+[data-testid="stSidebar"] {
+    background-color: rgba(0, 0, 0, 0.7);
 }
 [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2,
 [data-testid="stSidebar"] h3, [data-testid="stSidebar"] p,
 [data-testid="stSidebar"] li {
-color: white;
+    color: white;
 }
 .stMarkdown {
-color: black;
+    color: black;
 }
 h2 {
-color: black;
-border-bottom: 4px solid black;
+    color: black;
+    border-bottom: 4px solid black;
 }
 </style>
 """
@@ -112,4 +118,3 @@ elif menu == 'Perhitungan Efisiensi':
 
     st.markdown("---")
     st.caption("© 2025 | Edukasi IPAL untuk Pengolahan Limbah Industri")
-
