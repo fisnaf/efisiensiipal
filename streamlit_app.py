@@ -188,7 +188,7 @@ elif menu == 'Perhitungan Efisiensi':
                 else:
                     st.warning("Kinerja COD: Perlu Ditingkatkan ⚠️")
 
-       elif kalkulator == 'Kalkulator TSS':
+    elif kalkulator == 'Kalkulator TSS':
         # Kalkulator TSS
         tss_inlet = st.number_input("Masukkan konsentrasi TSS di inlet (mg/L)", min_value=0.0, step=0.1)
         tss_outlet = st.number_input("Masukkan konsentrasi TSS di outlet (mg/L)", min_value=0.0, step=0.1)
