@@ -2,7 +2,7 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 
-# Mengatur tema Streamlit dengan dominasi warna ungu sangat gelap
+# Konfigurasi halaman
 st.set_page_config(
     page_title="Perhitungan Efisiensi IPAL",
     page_icon=" ",
@@ -10,7 +10,7 @@ st.set_page_config(
     initial_sidebar_state="auto"
 )
 
-# Tambahkan CSS untuk latar belakang gambar dan teks hitam, termasuk header
+# CSS: background gelap + teks cerah agar kontras
 page_bg_img = """
 <style>
 [data-testid="stAppViewContainer"] {
@@ -24,59 +24,59 @@ page_bg_img = """
 }
 
 [data-testid="stSidebar"] {
-    background: rgba(255, 255, 255, 0.2); /* Transparan dengan efek blur */
-    backdrop-filter: blur(5px); /* Efek blur */
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    color: #fff;
 }
 
 [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3,
-[data-testid="stSidebar"] p, [data-testid="stSidebar"] li {
-    color: white; /* Set warna font sidebar menjadi putih */
+[data-testid="stSidebar"] p, [data-testid="stSidebar"] li, label, .stSelectbox label {
+    color: #f0f8ff !important;
+    font-weight: bold;
 }
 
-.stMarkdown {
-    color: white; /* Set warna teks markdown menjadi putih */
+.stMarkdown, .stNumberInput label, .stNumberInput input {
+    color: #ffffff !important;
 }
 
-.stNumberInput div {
-    color: white; /* Mengubah warna teks input menjadi putih */
+h1, h2, h3 {
+    color: #00ffff !important;
+    text-shadow: 1px 1px 2px #000;
 }
 
-h2 {
-    color: white; /* Set warna h2 menjadi putih */
-    border-bottom: 4px solid white; /* Ubah garis bawah menjadi putih */
+.stButton>button {
+    color: #000;
+    background-color: #00ffff;
+    font-weight: bold;
 }
 
 .output {
-    color: yellow; /* Set warna output menjadi kuning */
+    color: yellow;
 }
 </style>
 """
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
-# Judul aplikasi
+# Judul
 st.title("Perhitungan Efisiensi IPAL")
 
-# Opsi di sidebar
-opsi = st.sidebar.selectbox("Pilih opsi:", ["Tentang Kami", "Perhitungan Efisiensi IPAL"])
+# Sidebar menu
+opsi = st.sidebar.selectbox("Pilih Menu", ["Tentang Kami", "Perhitungan Efisiensi IPAL"])
 
-# Konten opsi pertama
 if opsi == "Tentang Kami":
-    st.write("### Tentang Kami:")
+    st.subheader("Tentang Kami")
     st.write("Aplikasi ini digunakan untuk menghitung efisiensi Instalasi Pengolahan Air Limbah (IPAL).")
-    st.write("Aplikasi ini merupakan hasil dari projek yang bertujuan untuk membantu memahami konsep dan proses dalam pengolahan air limbah.")
+    st.write("Aplikasi ini merupakan hasil dari projek edukatif untuk memahami proses pengolahan air limbah secara interaktif.")
 
-# Konten opsi kedua
-if opsi == "Perhitungan Efisiensi IPAL":
-    st.write("### Perhitungan Efisiensi IPAL")
-    
-    # Input data
+elif opsi == "Perhitungan Efisiensi IPAL":
+    st.subheader("Formulir Perhitungan Efisiensi")
+
     volume_input = st.number_input("Masukkan volume air limbah yang masuk (m³):", min_value=0.0, value=10.0)
     volume_output = st.number_input("Masukkan volume air yang keluar (m³):", min_value=0.0, value=8.0)
 
     if st.button("Hitung Efisiensi"):
         if volume_input > 0:
-            # Menghitung efisiensi
             efisiensi = ((volume_input - volume_output) / volume_input) * 100
-            st.write(f"### Efisiensi IPAL: {efisiensi:.2f}%")
+            st.success(f"Efisiensi IPAL: {efisiensi:.2f}%")
         else:
             st.error("Volume air limbah masuk harus lebih besar dari 0.")
