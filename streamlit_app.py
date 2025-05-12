@@ -101,8 +101,8 @@ Perbandingan antara inlet dan outlet digunakan untuk menghitung efisiensi.
     \text{Efisiensi (\%)} = \frac{C_{\text{inlet}} - C_{\text{outlet}}}{C_{\text{inlet}}} \times 100
     ''')
     st.markdown("""
-- \( C_{\text{inlet}} \): Konsentrasi polutan inlet (mg/L)  
-- \( C_{\text{outlet}} \): Konsentrasi polutan outlet (mg/L)
+- C_{\text{inlet}}: Konsentrasi polutan inlet (mg/L)  
+- C_{\text{outlet}}: Konsentrasi polutan outlet (mg/L)
 """)
 
     bold_black_header("📊 Parameter Evaluasi")
@@ -121,24 +121,72 @@ Evaluasi ini berguna untuk:
 # Menu: Perhitungan Efisiensi
 elif menu == 'Perhitungan Efisiensi':
     bold_black_header("🛠️ Hitung Efisiensi IPAL Anda")
-    c_inlet = st.number_input("Masukkan konsentrasi polutan inlet (mg/L)", min_value=0.0, step=0.1)
-    c_outlet = st.number_input("Masukkan konsentrasi polutan outlet (mg/L)", min_value=0.0, step=0.1)
 
-    if st.button("Hitung Efisiensi"):
-        if c_inlet <= 0:
-            st.error("Konsentrasi inlet harus lebih dari 0.")
-        elif c_outlet > c_inlet:
-            st.error("Konsentrasi outlet tidak boleh lebih besar dari inlet.")
-        else:
-            efisiensi = ((c_inlet - c_outlet) / c_inlet) * 100
-            st.success(f"Efisiensi IPAL adalah {efisiensi:.2f}%")
-            if efisiensi >= 90:
-                st.balloons()
-                st.info("Kinerja IPAL: Sangat Baik ✅")
-            elif efisiensi >= 70:
-                st.info("Kinerja IPAL: Cukup Baik ✅")
+    # Sidebar untuk memilih kalkulator parameter
+    kalkulator = st.sidebar.radio("Pilih Kalkulator", ['Efisiensi IPAL', 'Kalkulator BOD', 'Kalkulator COD', 'Kalkulator TSS', 'Kalkulator pH'])
+    
+    if kalkulator == 'Efisiensi IPAL':
+        # Perhitungan efisiensi IPAL
+        c_inlet = st.number_input("Masukkan konsentrasi polutan inlet (mg/L)", min_value=0.0, step=0.1)
+        c_outlet = st.number_input("Masukkan konsentrasi polutan outlet (mg/L)", min_value=0.0, step=0.1)
+
+        if st.button("Hitung Efisiensi"):
+            if c_inlet <= 0:
+                st.error("Konsentrasi inlet harus lebih dari 0.")
+            elif c_outlet > c_inlet:
+                st.error("Konsentrasi outlet tidak boleh lebih besar dari inlet.")
             else:
-                st.warning("Kinerja IPAL: Perlu Ditingkatkan ⚠️")
+                efisiensi = ((c_inlet - c_outlet) / c_inlet) * 100
+                st.success(f"Efisiensi IPAL adalah {efisiensi:.2f}%")
+                if efisiensi >= 90:
+                    st.balloons()
+                    st.info("Kinerja IPAL: Sangat Baik ✅")
+                elif efisiensi >= 70:
+                    st.info("Kinerja IPAL: Cukup Baik ✅")
+                else:
+                    st.warning("Kinerja IPAL: Perlu Ditingkatkan ⚠️")
 
-    st.markdown("---")
-    st.caption("© 2025 | Edukasi IPAL untuk Pengolahan Limbah Industri")
+    elif kalkulator == 'Kalkulator BOD':
+        # Kalkulator BOD
+        bod_inlet = st.number_input("Masukkan konsentrasi BOD di inlet (mg/L)", min_value=0.0, step=0.1)
+        bod_outlet = st.number_input("Masukkan konsentrasi BOD di outlet (mg/L)", min_value=0.0, step=0.1)
+
+        if st.button("Hitung Efisiensi BOD"):
+            if bod_inlet <= 0:
+                st.error("Konsentrasi BOD inlet harus lebih dari 0.")
+            elif bod_outlet > bod_inlet:
+                st.error("Konsentrasi BOD outlet tidak boleh lebih besar dari inlet.")
+            else:
+                bod_efisiensi = ((bod_inlet - bod_outlet) / bod_inlet) * 100
+                st.success(f"Efisiensi pengurangan BOD adalah {bod_efisiensi:.2f}%")
+                if bod_efisiensi >= 90:
+                    st.balloons()
+                    st.info("Kinerja BOD: Sangat Baik ✅")
+                elif bod_efisiensi >= 70:
+                    st.info("Kinerja BOD: Cukup Baik ✅")
+                else:
+                    st.warning("Kinerja BOD: Perlu Ditingkatkan ⚠️")
+
+    elif kalkulator == 'Kalkulator COD':
+        # Kalkulator COD
+        cod_inlet = st.number_input("Masukkan konsentrasi COD di inlet (mg/L)", min_value=0.0, step=0.1)
+        cod_outlet = st.number_input("Masukkan konsentrasi COD di outlet (mg/L)", min_value=0.0, step=0.1)
+
+        if st.button("Hitung Efisiensi COD"):
+            if cod_inlet <= 0:
+                st.error("Konsentrasi COD inlet harus lebih dari 0.")
+            elif cod_outlet > cod_inlet:
+                st.error("Konsentrasi COD outlet tidak boleh lebih besar dari inlet.")
+            else:
+                cod_efisiensi = ((cod_inlet - cod_outlet) / cod_inlet) * 100
+                st.success(f"Efisiensi pengurangan COD adalah {cod_efisiensi:.2f}%")
+                if cod_efisiensi >= 90:
+                    st.balloons()
+                    st.info("Kinerja COD: Sangat Baik ✅")
+                elif cod_efisiensi >= 70:
+                    st.info("Kinerja COD: Cukup Baik ✅")
+                else:
+                    st.warning("Kinerja COD: Perlu Ditingkatkan ⚠️")
+
+    elif kalkulator == 'Kalkulator TSS':
+        # Kalkulator TSS
