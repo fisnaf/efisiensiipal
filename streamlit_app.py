@@ -7,7 +7,7 @@ st.set_page_config(page_title="Kalkulator Efisiensi IPAL", layout="wide")
 page_bg_img = """
 <style>
 [data-testid="stAppViewContainer"] {
-background-image: url("https://images.unsplash.com/photo-1501426026826-31c667bdf23d");
+background-image: url("https://images.unsplash.com/photo-1506368249639-73a05d6f6488?auto=format&fit=crop&w=1650&q=80");
 background-size: cover;
 }
 [data-testid="stHeader"] {
