@@ -209,3 +209,13 @@ elif menu == 'Perhitungan Efisiensi':
                 else:
                     st.warning("Kinerja TSS: Perlu Ditingkatkan ⚠️")
 
+elif kalkulator == 'Kalkulator pH':
+    # Kalkulator pH
+    ph_inlet = st.number_input("Masukkan nilai pH di inlet", min_value=0.0, max_value=14.0, step=0.1)
+    ph_outlet = st.number_input("Masukkan nilai pH di outlet", min_value=0.0, max_value=14.0, step=0.1)
+
+    if st.button("Evaluasi pH"):
+        if 6.5 <= ph_outlet <= 8.5:
+            st.success(f"pH outlet ({ph_outlet}) dalam rentang normal 👍")
+        else:
+            st.warning(f"pH outlet ({ph_outlet}) di luar rentang ideal ⚠️")
