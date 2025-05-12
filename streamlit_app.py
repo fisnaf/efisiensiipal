@@ -1,4 +1,6 @@
 import streamlit as st
+import numpy as np
+import pandas as pd
 
 # Konfigurasi halaman
 st.set_page_config(
@@ -8,7 +10,7 @@ st.set_page_config(
     initial_sidebar_state="auto"
 )
 
-# CSS: background gelap dari script pertama + gaya tambahan
+# CSS: latar belakang + perbaikan teks sidebar & input
 page_bg_img = """
 <style>
 [data-testid="stAppViewContainer"] {
@@ -29,12 +31,18 @@ page_bg_img = """
 
 [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3,
 [data-testid="stSidebar"] p, [data-testid="stSidebar"] li, label, .stSelectbox label {
-    color: #f0f8ff !important;
+    color: #f8f9fa !important;
     font-weight: bold;
 }
 
-.stMarkdown, .stNumberInput label, .stNumberInput input {
+.stMarkdown, .stNumberInput label {
     color: #ffffff !important;
+}
+
+.stNumberInput input {
+    color: black !important;
+    background-color: #ffffff !important;
+    font-weight: bold;
 }
 
 h1, h2, h3 {
@@ -47,10 +55,6 @@ h1, h2, h3 {
     background-color: #00ffff;
     font-weight: bold;
 }
-
-.output {
-    color: yellow;
-}
 </style>
 """
 st.markdown(page_bg_img, unsafe_allow_html=True)
@@ -59,9 +63,9 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 st.sidebar.title('Menu')
 menu = st.sidebar.radio('Pilih Menu', ['Beranda', 'Penjelasan IPAL', 'Perhitungan Efisiensi'])
 
-# Fungsi untuk header
+# Fungsi header khusus
 def bold_black_header(text):
-    st.markdown(f"<h2 style='border-bottom: 4px solid #00ffff; color: #00ffff;'>{text}</h2>", unsafe_allow_html=True)
+    st.markdown(f"<h2 style='border-bottom: 4px solid black; color: black;'>{text}</h2>", unsafe_allow_html=True)
 
 # Menu: Beranda
 if menu == 'Beranda':
