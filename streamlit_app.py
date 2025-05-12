@@ -188,5 +188,24 @@ elif menu == 'Perhitungan Efisiensi':
                 else:
                     st.warning("Kinerja COD: Perlu Ditingkatkan ⚠️")
 
-    elif kalkulator == 'Kalkulator TSS':
+       elif kalkulator == 'Kalkulator TSS':
         # Kalkulator TSS
+        tss_inlet = st.number_input("Masukkan konsentrasi TSS di inlet (mg/L)", min_value=0.0, step=0.1)
+        tss_outlet = st.number_input("Masukkan konsentrasi TSS di outlet (mg/L)", min_value=0.0, step=0.1)
+
+        if st.button("Hitung Efisiensi TSS"):
+            if tss_inlet <= 0:
+                st.error("Konsentrasi TSS inlet harus lebih dari 0.")
+            elif tss_outlet > tss_inlet:
+                st.error("Konsentrasi TSS outlet tidak boleh lebih besar dari inlet.")
+            else:
+                tss_efisiensi = ((tss_inlet - tss_outlet) / tss_inlet) * 100
+                st.success(f"Efisiensi pengurangan TSS adalah {tss_efisiensi:.2f}%")
+                if tss_efisiensi >= 90:
+                    st.balloons()
+                    st.info("Kinerja TSS: Sangat Baik ✅")
+                elif tss_efisiensi >= 70:
+                    st.info("Kinerja TSS: Cukup Baik ✅")
+                else:
+                    st.warning("Kinerja TSS: Perlu Ditingkatkan ⚠️")
+
