@@ -1,6 +1,4 @@
 import streamlit as st
-import numpy as np
-import pandas as pd
 
 # Konfigurasi halaman
 st.set_page_config(
@@ -10,7 +8,7 @@ st.set_page_config(
     initial_sidebar_state="auto"
 )
 
-# CSS: background gelap + teks cerah agar kontras
+# CSS: background gelap dari script pertama + gaya tambahan
 page_bg_img = """
 <style>
 [data-testid="stAppViewContainer"] {
@@ -57,26 +55,86 @@ h1, h2, h3 {
 """
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
-# Judul
-st.title("Perhitungan Efisiensi IPAL")
-
 # Sidebar menu
-opsi = st.sidebar.selectbox("Pilih Menu", ["Tentang Kami", "Perhitungan Efisiensi IPAL"])
+st.sidebar.title('Menu')
+menu = st.sidebar.radio('Pilih Menu', ['Beranda', 'Penjelasan IPAL', 'Perhitungan Efisiensi'])
 
-if opsi == "Tentang Kami":
-    st.subheader("Tentang Kami")
-    st.write("Aplikasi ini digunakan untuk menghitung efisiensi Instalasi Pengolahan Air Limbah (IPAL).")
-    st.write("Aplikasi ini merupakan hasil dari projek edukatif untuk memahami proses pengolahan air limbah secara interaktif.")
+# Fungsi untuk header
+def bold_black_header(text):
+    st.markdown(f"<h2 style='border-bottom: 4px solid #00ffff; color: #00ffff;'>{text}</h2>", unsafe_allow_html=True)
 
-elif opsi == "Perhitungan Efisiensi IPAL":
-    st.subheader("Formulir Perhitungan Efisiensi")
+# Menu: Beranda
+if menu == 'Beranda':
+    bold_black_header('Selamat Datang di Kalkulator IPAL')
+    st.write("""
+Aplikasi ini membantu Anda memahami konsep Instalasi Pengolahan Air Limbah (IPAL) dan menghitung efisiensi pengolahannya.
 
-    volume_input = st.number_input("Masukkan volume air limbah yang masuk (m³):", min_value=0.0, value=10.0)
-    volume_output = st.number_input("Masukkan volume air yang keluar (m³):", min_value=0.0, value=8.0)
+Dibuat oleh:
+- Syarif Nafis & Tim (2025)
+
+Silakan gunakan menu di sebelah kiri untuk mulai mengeksplorasi.
+""")
+
+# Menu: Penjelasan IPAL
+elif menu == 'Penjelasan IPAL':
+    bold_black_header("📚 Pendahuluan")
+    st.write("""
+Instalasi Pengolahan Air Limbah (IPAL) adalah sistem yang dirancang untuk mengolah air limbah agar aman dibuang ke lingkungan atau digunakan kembali. IPAL penting untuk menjaga kualitas air dan kesehatan lingkungan.
+
+Efisiensi IPAL mengukur seberapa besar kemampuan instalasi dalam menurunkan polutan dari air limbah.
+""")
+
+    bold_black_header("🔎 Inlet dan Outlet")
+    st.write("""
+- **Inlet**: Titik masuk air limbah, biasanya konsentrasi polutan tinggi.
+- **Outlet**: Titik keluarnya air setelah diolah, seharusnya konsentrasi lebih rendah.
+
+Perbandingan antara inlet dan outlet digunakan untuk menghitung efisiensi.
+""")
+
+    bold_black_header("🧮 Rumus Perhitungan")
+    st.latex(r'''
+    \text{Efisiensi (\%)} = \frac{C_{\text{inlet}} - C_{\text{outlet}}}{C_{\text{inlet}}} \times 100
+    ''')
+    st.markdown("""
+- \( C_{\text{inlet}} \): Konsentrasi polutan inlet (mg/L)  
+- \( C_{\text{outlet}} \): Konsentrasi polutan outlet (mg/L)
+""")
+
+    bold_black_header("📊 Parameter Evaluasi")
+    st.write("""
+- **BOD**: Permintaan oksigen oleh mikroorganisme.
+- **COD**: Permintaan oksigen total untuk oksidasi.
+- **pH**: Tingkat keasaman/basaan.
+- **TSS**: Jumlah padatan tersuspensi.
+
+Evaluasi ini berguna untuk:
+- Memastikan kepatuhan regulasi.
+- Menilai efektivitas proses.
+- Menyusun strategi peningkatan efisiensi.
+""")
+
+# Menu: Perhitungan Efisiensi
+elif menu == 'Perhitungan Efisiensi':
+    bold_black_header("🛠️ Hitung Efisiensi IPAL Anda")
+    c_inlet = st.number_input("Masukkan konsentrasi polutan inlet (mg/L)", min_value=0.0, step=0.1)
+    c_outlet = st.number_input("Masukkan konsentrasi polutan outlet (mg/L)", min_value=0.0, step=0.1)
 
     if st.button("Hitung Efisiensi"):
-        if volume_input > 0:
-            efisiensi = ((volume_input - volume_output) / volume_input) * 100
-            st.success(f"Efisiensi IPAL: {efisiensi:.2f}%")
+        if c_inlet <= 0:
+            st.error("Konsentrasi inlet harus lebih dari 0.")
+        elif c_outlet > c_inlet:
+            st.error("Konsentrasi outlet tidak boleh lebih besar dari inlet.")
         else:
-            st.error("Volume air limbah masuk harus lebih besar dari 0.")
+            efisiensi = ((c_inlet - c_outlet) / c_inlet) * 100
+            st.success(f"Efisiensi IPAL adalah {efisiensi:.2f}%")
+            if efisiensi >= 90:
+                st.balloons()
+                st.info("Kinerja IPAL: Sangat Baik ✅")
+            elif efisiensi >= 70:
+                st.info("Kinerja IPAL: Cukup Baik ✅")
+            else:
+                st.warning("Kinerja IPAL: Perlu Ditingkatkan ⚠️")
+
+    st.markdown("---")
+    st.caption("© 2025 | Edukasi IPAL untuk Pengolahan Limbah Industri")
