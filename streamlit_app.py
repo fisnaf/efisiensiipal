@@ -110,7 +110,7 @@ Pengolahan air limbah juga sangat penting dalam mendukung kegiatan industri yang
 
 elif menu == 'Perhitungan Efisiensi':  
     bold_black_header("🛠️ Kalkulator Efisiensi IPAL")  
-    kalkulator = st.sidebar.radio("Pilih Kalkulator", ['kalkulatpr Efisiensi IPAL', 'Kalkulator BOD', 'Kalkulator COD', 'Kalkulator TSS', 'Kalkulator pH'])  
+    kalkulator = st.sidebar.radio("Pilih Kalkulator", ['Efisiensi IPAL', 'Kalkulator BOD', 'Kalkulator COD', 'Kalkulator TSS', 'Kalkulator pH'])  
   
     def baku_mutu_check(nama, nilai, ambang, satuan="mg/L"):  
         if nilai <= ambang:  
