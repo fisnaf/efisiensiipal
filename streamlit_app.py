@@ -1,73 +1,138 @@
-import streamlit as st
-
-st.set_page_config(page_title="Evaluasi IPAL & Baku Mutu", layout="centered")
-
-st.title("Aplikasi Evaluasi Efisiensi IPAL")
-st.markdown("Perhitungan efisiensi parameter BOD, COD, TSS, dan pH serta pembanding terhadap baku mutu berdasarkan **Permen LHK No. 5 Tahun 2020**")
-
-# Baku mutu berdasarkan Permen LHK No. 5 Tahun 2020 Lampiran III Bagian C
-baku_mutu = {
-    "BOD": 30.0,    # mg/L
-    "COD": 100.0,   # mg/L
-    "TSS": 30.0,    # mg/L
-    "pH_min": 6.5,
-    "pH_max": 8.5
+import streamlit as st  
+import numpy as np  
+import pandas as pd  
+  
+st.set_page_config(page_title="Perhitungan Efisiensi IPAL", layout="centered")  
+  
+# Background dan CSS terang
+st.markdown("""  
+<style>  
+[data-testid="stAppViewContainer"] {
+    background-image: url("https://images.unsplash.com/photo-1693237476029-f8469bb756a2?q=80&w=1932&auto=format&fit=crop");  
+    background-size: cover;  
+    background-position: center;  
+    color: white;
 }
-
-st.header("1. Kalkulator Efisiensi BOD")
-bod_inlet = st.number_input("Masukkan BOD inlet (mg/L)", min_value=0.0)
-bod_outlet = st.number_input("Masukkan BOD outlet (mg/L)", min_value=0.0)
-if st.button("Hitung Efisiensi BOD"):
-    if bod_inlet <= 0:
-        st.error("BOD inlet harus lebih dari 0")
-    elif bod_outlet > bod_inlet:
-        st.error("BOD outlet tidak boleh lebih besar dari inlet")
-    else:
-        efisiensi_bod = (bod_inlet - bod_outlet) / bod_inlet * 100
-        st.success(f"Efisiensi BOD: {efisiensi_bod:.2f}%")
-        if bod_outlet <= baku_mutu["BOD"]:
-            st.info(f"BOD outlet ({bod_outlet} mg/L) sesuai baku mutu ✅")
-        else:
-            st.warning(f"BOD outlet ({bod_outlet} mg/L) melebihi baku mutu ({baku_mutu['BOD']} mg/L) ⚠️")
-
-st.header("2. Kalkulator Efisiensi COD")
-cod_inlet = st.number_input("Masukkan COD inlet (mg/L)", min_value=0.0)
-cod_outlet = st.number_input("Masukkan COD outlet (mg/L)", min_value=0.0)
-if st.button("Hitung Efisiensi COD"):
-    if cod_inlet <= 0:
-        st.error("COD inlet harus lebih dari 0")
-    elif cod_outlet > cod_inlet:
-        st.error("COD outlet tidak boleh lebih besar dari inlet")
-    else:
-        efisiensi_cod = (cod_inlet - cod_outlet) / cod_inlet * 100
-        st.success(f"Efisiensi COD: {efisiensi_cod:.2f}%")
-        if cod_outlet <= baku_mutu["COD"]:
-            st.info(f"COD outlet ({cod_outlet} mg/L) sesuai baku mutu ✅")
-        else:
-            st.warning(f"COD outlet ({cod_outlet} mg/L) melebihi baku mutu ({baku_mutu['COD']} mg/L) ⚠️")
-
-st.header("3. Kalkulator Efisiensi TSS")
-tss_inlet = st.number_input("Masukkan TSS inlet (mg/L)", min_value=0.0)
-tss_outlet = st.number_input("Masukkan TSS outlet (mg/L)", min_value=0.0)
-if st.button("Hitung Efisiensi TSS"):
-    if tss_inlet <= 0:
-        st.error("TSS inlet harus lebih dari 0")
-    elif tss_outlet > tss_inlet:
-        st.error("TSS outlet tidak boleh lebih besar dari inlet")
-    else:
-        efisiensi_tss = (tss_inlet - tss_outlet) / tss_inlet * 100
-        st.success(f"Efisiensi TSS: {efisiensi_tss:.2f}%")
-        if tss_outlet <= baku_mutu["TSS"]:
-            st.info(f"TSS outlet ({tss_outlet} mg/L) sesuai baku mutu ✅")
-        else:
-            st.warning(f"TSS outlet ({tss_outlet} mg/L) melebihi baku mutu ({baku_mutu['TSS']} mg/L) ⚠️")
-
-st.header("4. Evaluasi pH")
-ph_outlet = st.number_input("Masukkan pH outlet", min_value=0.0)
-if st.button("Evaluasi pH"):
-    if baku_mutu["pH_min"] <= ph_outlet <= baku_mutu["pH_max"]:
-        st.success(f"pH outlet ({ph_outlet}) dalam rentang baku mutu (6.5–8.5) ✅")
-    else:
-        st.warning(f"pH outlet ({ph_outlet}) di luar baku mutu (6.5–8.5) ⚠️")
-
-st.caption("Dibuat oleh Zafindo Group | Mengacu Permen LHK No. 5 Tahun 2020")
+[data-testid="stSidebar"] {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    color: white;
+}
+[data-testid="stSidebar"] h1, [data-testid="stSidebar"] label {
+    color: white;
+    font-weight: bold;
+}
+.stNumberInput input {
+    color: black;
+    background-color: white;
+    font-weight: bold;
+}
+h2, h3, h4, p, label, .stMarkdown {
+    color: white !important;
+}
+.stButton>button {
+    color: black;
+    background-color: #00ffff;
+    font-weight: bold;
+}
+</style>  
+""", unsafe_allow_html=True)  
+  
+# Sidebar menu  
+st.sidebar.title('Menu')  
+menu = st.sidebar.radio('Pilih Menu', ['Beranda', 'Penjelasan IPAL', 'Perhitungan Efisiensi'])  
+  
+def bold_black_header(text):  
+    st.markdown(f"<h2 style='border-bottom: 4px solid white;'>{text}</h2>", unsafe_allow_html=True)  
+  
+if menu == 'Beranda':  
+    bold_black_header('Selamat Datang di Kalkulator IPAL')  
+    st.write("""  
+Aplikasi ini membantu Anda menghitung efisiensi IPAL dan membandingkannya dengan baku mutu limbah berdasarkan PermenLHK No. 5 Tahun 2022.  
+  
+Dibuat oleh:  
+- 2F/PLI/2025  
+""")  
+  
+elif menu == 'Penjelasan IPAL':  
+    bold_black_header("📚 Apa itu IPAL?")  
+    st.write("""IPAL adalah Instalasi Pengolahan Air Limbah yang digunakan untuk menurunkan kandungan polutan seperti BOD, COD, TSS, dan pH sebelum air limbah dibuang ke lingkungan.""")  
+    st.write("Baku mutu limbah cair domestik berdasarkan **PermenLHK No. 5 Tahun 2022 (Lampiran I)**:")  
+    st.markdown("""  
+- BOD ≤ 30 mg/L  
+- COD ≤ 100 mg/L  
+- TSS ≤ 30 mg/L  
+- pH antara 6.5–8.5  
+""")  
+    st.latex(r'''Efisiensi = \frac{C_{inlet} - C_{outlet}}{C_{inlet}} \times 100''')  
+  
+elif menu == 'Perhitungan Efisiensi':  
+    bold_black_header("🛠️ Kalkulator Efisiensi IPAL")  
+    kalkulator = st.sidebar.radio("Pilih Kalkulator", ['Efisiensi IPAL', 'Kalkulator BOD', 'Kalkulator COD', 'Kalkulator TSS', 'Kalkulator pH'])  
+  
+    def baku_mutu_check(nama, nilai, ambang, satuan="mg/L"):  
+        if nilai <= ambang:  
+            st.success(f"{nama} ({nilai} {satuan}) **MEMENUHI** baku mutu ({nama} ≤ {ambang} {satuan})")  
+        else:  
+            st.error(f"{nama} ({nilai} {satuan}) **TIDAK MEMENUHI** baku mutu ({nama} ≤ {ambang} {satuan})")  
+  
+    if kalkulator == 'Efisiensi IPAL':  
+        c_inlet = st.number_input("Konsentrasi inlet (mg/L)", min_value=0.0, step=0.1)  
+        c_outlet = st.number_input("Konsentrasi outlet (mg/L)", min_value=0.0, step=0.1)  
+        if st.button("Hitung Efisiensi IPAL"):  
+            if c_inlet <= 0:  
+                st.error("Inlet harus lebih dari 0.")  
+            elif c_outlet > c_inlet:  
+                st.error("Outlet tidak boleh lebih besar dari inlet.")  
+            else:  
+                efisiensi = ((c_inlet - c_outlet) / c_inlet) * 100  
+                st.success(f"Efisiensi: {efisiensi:.2f}%")  
+                baku_mutu_check("Outlet", c_outlet, 30)  
+  
+    elif kalkulator == 'Kalkulator BOD':  
+        bod_in = st.number_input("BOD inlet (mg/L)", min_value=0.0, step=0.1)  
+        bod_out = st.number_input("BOD outlet (mg/L)", min_value=0.0, step=0.1)  
+        if st.button("Hitung Efisiensi BOD"):  
+            if bod_in <= 0:  
+                st.error("Inlet BOD harus lebih dari 0.")  
+            elif bod_out > bod_in:  
+                st.error("Outlet tidak boleh lebih besar dari inlet.")  
+            else:  
+                e = ((bod_in - bod_out) / bod_in) * 100  
+                st.success(f"Efisiensi BOD: {e:.2f}%")  
+                baku_mutu_check("BOD Outlet", bod_out, 30)  
+  
+    elif kalkulator == 'Kalkulator COD':  
+        cod_in = st.number_input("COD inlet (mg/L)", min_value=0.0, step=0.1)  
+        cod_out = st.number_input("COD outlet (mg/L)", min_value=0.0, step=0.1)  
+        if st.button("Hitung Efisiensi COD"):  
+            if cod_in <= 0:  
+                st.error("Inlet COD harus lebih dari 0.")  
+            elif cod_out > cod_in:  
+                st.error("Outlet tidak boleh lebih besar dari inlet.")  
+            else:  
+                e = ((cod_in - cod_out) / cod_in) * 100  
+                st.success(f"Efisiensi COD: {e:.2f}%")  
+                baku_mutu_check("COD Outlet", cod_out, 100)  
+  
+    elif kalkulator == 'Kalkulator TSS':  
+        tss_in = st.number_input("TSS inlet (mg/L)", min_value=0.0, step=0.1)  
+        tss_out = st.number_input("TSS outlet (mg/L)", min_value=0.0, step=0.1)  
+        if st.button("Hitung Efisiensi TSS"):  
+            if tss_in <= 0:  
+                st.error("Inlet TSS harus lebih dari 0.")  
+            elif tss_out > tss_in:  
+                st.error("Outlet tidak boleh lebih besar dari inlet.")  
+            else:  
+                e = ((tss_in - tss_out) / tss_in) * 100  
+                st.success(f"Efisiensi TSS: {e:.2f}%")  
+                baku_mutu_check("TSS Outlet", tss_out, 30)  
+  
+    elif kalkulator == 'Kalkulator pH':  
+        ph_in = st.number_input("pH inlet", min_value=0.0, max_value=14.0, step=0.1)  
+        ph_out = st.number_input("pH outlet", min_value=0.0, max_value=14.0, step=0.1)  
+        if st.button("Evaluasi pH"):  
+            if 6.5 <= ph_out <= 8.5:  
+                st.success(f"pH outlet ({ph_out}) **MEMENUHI** baku mutu (6.5–8.5)")  
+            else:  
+                st.error(f"pH outlet ({ph_out}) **TIDAK MEMENUHI** baku mutu (6.5–8.5)")
