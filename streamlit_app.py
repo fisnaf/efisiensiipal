@@ -118,19 +118,6 @@ elif menu == 'Perhitungan Efisiensi':
         else:  
             st.error(f"{nama} ({nilai} {satuan}) **TIDAK MEMENUHI** baku mutu ({nama} ≤ {ambang} {satuan})")  
   
-    if kalkulator == 'Efisiensi IPAL':  
-        c_inlet = st.number_input("Konsentrasi inlet (mg/L)", min_value=0.0, step=0.1)  
-        c_outlet = st.number_input("Konsentrasi outlet (mg/L)", min_value=0.0, step=0.1)  
-        if st.button("Hitung Efisiensi IPAL"):  
-            if c_inlet <= 0:  
-                st.error("Inlet harus lebih dari 0.")  
-            elif c_outlet > c_inlet:  
-                st.error("Outlet tidak boleh lebih besar dari inlet.")  
-            else:  
-                efisiensi = ((c_inlet - c_outlet) / c_inlet) * 100  
-                st.success(f"Efisiensi: {efisiensi:.2f}%")  
-                baku_mutu_check("Outlet", c_outlet, 30)  
-  
     elif kalkulator == 'Kalkulator BOD':  
         bod_in = st.number_input("BOD inlet (mg/L)", min_value=0.0, step=0.1)  
         bod_out = st.number_input("BOD outlet (mg/L)", min_value=0.0, step=0.1)  
