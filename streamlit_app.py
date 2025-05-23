@@ -118,18 +118,18 @@ elif menu == 'Perhitungan Efisiensi':
         else:  
             st.error(f"{nama} ({nilai} {satuan}) **TIDAK MEMENUHI** baku mutu ({nama} ≤ {ambang} {satuan})")  
   
-    elif kalkulator == 'Kalkulator BOD':  
-        bod_in = st.number_input("BOD inlet (mg/L)", min_value=0.0, step=0.1)  
-        bod_out = st.number_input("BOD outlet (mg/L)", min_value=0.0, step=0.1)  
-        if st.button("Hitung Efisiensi BOD"):  
-            if bod_in <= 0:  
-                st.error("Inlet BOD harus lebih dari 0.")  
-            elif bod_out > bod_in:  
-                st.error("Outlet tidak boleh lebih besar dari inlet.")  
-            else:  
-                e = ((bod_in - bod_out) / bod_in) * 100  
-                st.success(f"Efisiensi BOD: {e:.2f}%")  
-                baku_mutu_check("BOD Outlet", bod_out, 30)  
+  elif kalkulator == 'Kalkulator BOD':  
+      bod_in = st.number_input("BOD inlet (mg/L)", min_value=0.0, step=0.1)  
+      bod_out = st.number_input("BOD outlet (mg/L)", min_value=0.0, step=0.1)  
+      if st.button("Hitung Efisiensi BOD"):  
+          if bod_in <= 0:  
+              st.error("Inlet BOD harus lebih dari 0.")  
+          elif bod_out > bod_in: 
+              st.error("Outlet tidak boleh lebih besar dari inlet.")  
+          else:  
+              e = ((bod_in - bod_out) / bod_in) * 100  
+              st.success(f"Efisiensi BOD: {e:.2f}%")  
+              baku_mutu_check("BOD Outlet", bod_out, 30)  
   
     elif kalkulator == 'Kalkulator COD':  
         cod_in = st.number_input("COD inlet (mg/L)", min_value=0.0, step=0.1)  
