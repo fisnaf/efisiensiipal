@@ -58,9 +58,14 @@ elif menu == 'Penjelasan IPAL':
     bold_black_header("📚 Apa itu IPAL?")  
     st.write("""  
 IPAL (Instalasi Pengolahan Air Limbah) adalah sistem yang digunakan untuk mengolah air limbah agar dapat memenuhi standar baku mutu yang ditetapkan sebelum dibuang ke lingkungan. Tujuan utama dari IPAL adalah mengurangi polutan dalam air, seperti BOD, COD, TSS, dan pH.  
+  
+Berikut penjelasan singkat:  
+- **BOD (Biological Oxygen Demand)**: Mengukur jumlah oksigen yang dibutuhkan oleh mikroorganisme untuk mengurai bahan organik dalam air.  
+- **COD (Chemical Oxygen Demand)**: Mengukur jumlah oksigen yang dibutuhkan untuk mengoksidasi bahan kimia organik dan anorganik.  
+- **TSS (Total Suspended Solid)**: Padatan tersuspensi yang dapat menyebabkan kekeruhan air.  
+- **pH**: Tingkat keasaman atau kebasaan air limbah.  
 """)  
-    # (Potongan penjelasan lainnya tetap seperti pada versi sebelumnya)
-
+  
 elif menu == 'Perhitungan Efisiensi':  
     bold_black_header("🛠️ Kalkulator Parameter IPAL")  
     kalkulator = st.sidebar.radio("Pilih Kalkulator", ['Kalkulator BOD', 'Kalkulator COD', 'Kalkulator TSS', 'Kalkulator pH'])  
